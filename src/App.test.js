@@ -1,24 +1,30 @@
-import React from 'react'
+import React from 'react';
 import { render, screen } from '@testing-library/react';
+import UserEvent from '@testing-library/user-event';
 import App from './App';
 
-// test('render h1 element', () => { 
-//   render (<App />);
+describe('Testing App Component', () => {
+  test('counter is incremented on increment button click', () => {
+    render(<App />);
 
-//   screen.debug();
+    const counter = screen.getByTestId('counter');
+    const incrementBtn = screen.getByText('Increment');
 
-//   expect(screen.getByText('Hello World')).toBeInTheDocument();
-// });
+    UserEvent.click(incrementBtn);
+    UserEvent.click(incrementBtn);
 
-test('list contains 5 animals', () => { 
-  render(<App />);
+    expect(counter.textContent).toEqual('2');
+  });
 
-  const listElement = screen.getByRole('list');
-  const listItems = screen.getAllByRole('listitem');
+  test('counter is decremented on decrement button click', () => {
+    render(<App />);
 
-  expect(listElement).toBeInTheDocument();
-  expect(listElement).toHaveClass('animals');
-  expect(listItems.length).toEqual(5);
-})
+    const counter = screen.getByTestId('counter');
+    const decrementBtn = screen.getByText('Decrement');
 
+    UserEvent.click(decrementBtn);
+    UserEvent.click(decrementBtn);
 
+    expect(counter.textContent).toEqual('-2');
+  });
+});
